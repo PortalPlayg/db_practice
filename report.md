@@ -2,3 +2,6 @@
 
 ![](1.1.PNG)
 
+```
+SELECT * FROM table
+```
