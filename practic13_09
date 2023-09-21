@@ -11,7 +11,7 @@ SELECT id, name FROM person ORDER BY id, pizza_name
 ## измените порядок по имени объекта для части данных из таблица person, а затем из таблицы меню
 
 ![](2.1_13.PNG)
-![](2.2_13.PNG)
+![](2.2_13.PNG) 
 
 ```
 SELECT name,'person' AS sourece FROM person
