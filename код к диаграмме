@@ -1,65 +1,79 @@
-create table user
+create table Users
 ( id bigint primary key ,
   name text null,
   password text not null,
   achivement text not null 
   );
-insert into user values (1, '@liric','ssgs3257gd', );
-insert into user values (2, 'Corlg','437fdh145',);
-insert into user values (3, 'Anna', '16fafaf', );
+insert into Users values (1, 'liric','ssgs3257gd',5 );
+insert into Users values (2, 'Corlg','437fdh145',0);
+insert into Users values (3, 'Anna', '16fafaf', 4);
 
-create table characters
+create table Characters
 (id bigint primary key ,
  name text not null ,
  lv int not null default 0
 );
-insert into user values (1, 'kevin', 1);
-insert into user values (2, 'kiana', 10);
+insert into Characters values (1, 'kevin', 10);
+insert into Characters values (2, 'kiana', 10);
 
 create table location
 (id bigint primary key ,
  tile text not null ,
  file_setings text not null 
  );
-insert into user values (1, 'lake',);
+insert into location values (1, 'lake','/E:game/local');
+insert into location values (2, 'home','/E:game/local');
 
 create table achivement
 (id bigint primary key ,
  name text not null ,
  status bool not null 
 );
- 
+insert into achivement values (1, 'you 1 win','+');
+insert into achivement values (2, '5 lv','-');
+
 create table achivement_user_list
 ( id bigint primary key ,
-  user_id  int not null ,
+  users_id  int not null ,
   achivement_id int not null ,
   data_of_receving date not null
-  constraint fk_user_id_user foreign key (user_id) references user(id));
-  constraint fk_achivement_id_achivement foreign key (id) references user(id));
+  constraint fk_achivement_user_list_users_id foreign key (users_id) references users(id);
+  constraint fk_achivement_user_list_achivement_id foreign key (achivement_id) references users(id);
 );
+insert into achivement_user_list values (1,1,1,2000-01-01);
+insert into achivement_user_list values (2,2,1,2000-01-01);
+insert into achivement_user_list values (3,2,2,2000-01-01);
+insert into achivement_user_list values (4,3, ,2000-01-01);
 
 create table location_user_list
 (id bigint primary key ,
-  user_id  int not null ,
+  users_id  int not null ,
   location_id int not null 
   constraint fk_user_id_user foreign key (user_id) references user(id));
   constraint fk_location_id_location foreign key (location_id) references user(id));
 );
+insert into location_user_list values (1,1,1 );
+insert into location_user_list values (2,3,2 );
 
 create table user_characters
 (id bigint primary key ,
-  user_id  int not null ,
+  users_id  int not null ,
   character_id int not null ,
   constraint fk_user_id_user foreign key (user_id) references user(id));
   constraint fk_character_id_character foreign key (character_id) references user(id));
 );
+insert into user_characters values (1,1,1 );
+insert into user_characters values (2,3,2 );
 
 create table characters_skills
 (id bigint primary key ,
-  user_id  int not null ,
+  users_id  int not null ,
   character_id int not null ,
   powers float not null,
   class text not null,
   constraint fk_user_id_user foreign key (user_id) references user(id));
   constraint fk_character_id_character foreign key (character_id) references user(id));
 );
+insert into characters_skills values (1,1,1,100,'ranger');
+insert into characters_skills values (2,2,2,50,'healer' );
+insert into characters_skills values (3,3,1,500,'defender' );
