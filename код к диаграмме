@@ -7,6 +7,7 @@ create table Users
 insert into Users values (1, 'liric','ssgs3257gd',5 );
 insert into Users values (2, 'Corlg','437fdh145',0);
 insert into Users values (3, 'Anna', '16fafaf', 4);
+insert into Users values (4, 'New user', '16fafaf', 0);
 
 create table Characters
 (id bigint primary key ,
@@ -60,6 +61,32 @@ create table Users_characters
   constraint fk_character_id_character FOREIGN KEY (character_id) references users(id));
 insert into users_characters values (1,1,1,10 );
 insert into users_characters values (2,3,2,13 );
+
+DROP SEQUENCE IF EXISTS seq_Users_characters;
+CREATE SEQUENCE seq_Users_characters
+MINVALUE 1 START WITH 1 INCREMENT BY 1;
+
+ALTER TABLE Users_characters ALTER COLUMN id SET DEFAULT NEXTVAL('seq_Users_characters');
+
+
+CREATE OR REPLACE FUNCTION fnc_trg_add_default_hero() RETURNS trigger AS $trg_add_default_hero$
+    BEGIN
+       INSERT INTO Users_characters (Users_id,character_id,lv)
+            VALUES (
+				NEW.id,
+				1,
+				1
+			);
+       RETURN NULL;
+    END;
+$trg_add_default_hero$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS fnc_trg_add_default_hero ON users;
+
+CREATE TRIGGER trg_add_default_hero AFTER INSERT ON users
+    FOR EACH ROW EXECUTE FUNCTION fnc_trg_add_default_hero();
+	
+DELETE FROM users WHERE id = 0;
 
 create table characters_skills
 (id bigint primary key ,
